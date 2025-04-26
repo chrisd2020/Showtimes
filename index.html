@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Movie Week Schedule</title>
   <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <!-- jsPDF Library -->
 </head>
 <body>
 
@@ -15,7 +16,7 @@
 </header>
 
 <section class="movie-grid">
-  <div class="movie-card">
+  <div class="movie-card" onclick="openModal('Back to the Future', '', 'images/bttf.jpeg', 'Showing: Monday, 8:00 PM')">
     <div class="poster" style="background-image: url('images/bttf.jpeg');"></div>
     <div class="movie-info">
       <h2>Back to the Future</h2>
@@ -23,7 +24,7 @@
     </div>
   </div>
   
-  <div class="movie-card">
+  <div class="movie-card" onclick="openModal('The Super Mario Bros. Movie', '', 'images/tsmbm.jpg', 'Showing: Tuesday, 8:00 PM')">
     <div class="poster" style="background-image: url('images/tsmbm.jpg');"></div>
     <div class="movie-info">
       <h2>The Super Mario Bros. Movie</h2>
@@ -31,7 +32,7 @@
     </div>
   </div>
 
-  <div class="movie-card">
+  <div class="movie-card" onclick="openModal('Formula 1', 'Miami Grand Prix 2025', 'images/mgp2.jpeg', 'Showing: Sunday, 9:00 PM')">
     <div class="poster" style="background-image: url('images/mgp2.jpeg');"></div>
     <div class="movie-info">
       <h2>Formula 1</h2>
@@ -40,7 +41,7 @@
     </div>
   </div>
 
-  <div class="movie-card">
+  <div class="movie-card" onclick="openModal('Doctor Who', 'Lucky Day - S02E04', 'images/dw.jpg', 'Showing: Saturday, 7:00 PM')">
     <div class="poster" style="background-image: url('images/dw.jpg');"></div>
     <div class="movie-info">
       <h2>Doctor Who</h2>
@@ -49,7 +50,7 @@
     </div>
   </div>
 
-  <div class="movie-card">
+  <div class="movie-card" onclick="openModal('Taskmaster', 'Sometimes Spit - S19E01', 'images/tm.pn', 'Showing: Thursday, 9:00 P')">
     <div class="poster" style="background-image: url('images/tm.png');"></div>
     <div class="movie-info">
       <h2>Taskmaster</h2>
@@ -58,7 +59,7 @@
     </div>
   </div>
 
-  <div class="movie-card">
+  <div class="movie-card" onclick="openModal('Skyfall', '', 'images/s.jpg', 'Showing: Wednesday, 8:00 PM')">
     <div class="poster" style="background-image: url('images/s.jpg');"></div>
     <div class="movie-info">
       <h2>Skyfall</h2>
@@ -67,7 +68,7 @@
     </div>
   </div>
 
-  <div class="movie-card">
+  <div class="movie-card" onclick="openModal('Spider-Man: Into the Spider-Verse', '', 'images/smitsv.jpg', 'Showing: Wednesday, 8:00 PM')">
     <div class="poster" style="background-image: url('images/smitsv.jpg');"></div>
     <div class="movie-info">
       <h2>Spider-Man: Into the Spider-Verse</h2>
@@ -76,7 +77,7 @@
     </div>
   </div>
 
-  <div class="movie-card">
+  <div class="movie-card" onclick="openModal('Sonic the Hedgehog 3', '', 'images/sth3.jpg', 'Showing: Wednesday, 8:00 PM')">
     <div class="poster" style="background-image: url('images/sth3.jpg');"></div>
     <div class="movie-info">
       <h2>Sonic the Hedgehog 3</h2>
@@ -85,7 +86,7 @@
     </div>
   </div>
 
-  <div class="movie-card">
+  <div class="movie-card" onclick="openModal('Deadpool & Wolverine', '', 'images/daw.jpg', 'Showing: Wednesday, 8:00 PM')">
     <div class="poster" style="background-image: url('images/daw.jpg');"></div>
     <div class="movie-info">
       <h2>Deadpool & Wolverine</h2>
@@ -94,7 +95,7 @@
     </div>
   </div>
 
-  <div class="movie-card">
+  <div class="movie-card" onclick="openModal('Wallace & Gromit: Vengeance Most Fowl', '', 'images/wag.jpg', 'Showing: Wednesday, 8:00 PM')">
     <div class="poster" style="background-image: url('images/wag.jpg');"></div>
     <div class="movie-info">
       <h2>Wallace & Gromit: Vengeance Most Fowl</h2>
@@ -103,7 +104,7 @@
     </div>
   </div>
 
-  <div class="movie-card">
+  <div class="movie-card" onclick="openModal('Mission: Impossible - Fallout', '', 'images/mi.jpg', 'Showing: Wednesday, 8:00 PM')">
     <div class="poster" style="background-image: url('images/mi.jpg');"></div>
     <div class="movie-info">
       <h2>Mission: Impossible - Fallout</h2>
@@ -112,7 +113,7 @@
     </div>
   </div>
 
-  <div class="movie-card">
+  <div class="movie-card" onclick="openModal('Mission: Impossible - Ghost Protocol', '', 'images/migp.jpg', 'Showing: Wednesday, 8:00 PM')">
     <div class="poster" style="background-image: url('images/migp.jpg');"></div>
     <div class="movie-info">
       <h2>Mission: Impossible - Ghost Protocol</h2>
@@ -123,6 +124,53 @@
 
   <!-- Add more movie-cards here -->
 </section>
+
+<!-- Modal for ticket download -->
+<div id="ticketModal" class="modal" onclick="closeModal()">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h3 id="movieTitle" class="modal-movie-title">Download Ticket for:</h3>
+        <h2 id="movieName" class="modal-movie-name">Download Ticket for Movie</h2>
+        <button class="download-btn" onclick="downloadTicket()">Download Ticket</button>
+    </div>
+</div>
+
+<script>
+    // Modal functionality
+    let currentMovie = {};
+
+    function openModal(movieName, movieInfo, moviePoster, showtime) {
+        currentMovie = { movieName, movieInfo, moviePoster, showtime };  // Store movie details in a global variable
+        document.getElementById('movieName').innerText = '' + movieName;
+        document.getElementById('ticketModal').style.display = 'flex'; // Change display to flex for centering
+    }
+
+    function closeModal() {
+        document.getElementById('ticketModal').style.display = 'none';
+    }
+
+    function downloadTicket() {
+        const { movieName, movieInfo, moviePoster, showtime } = currentMovie;
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Add movie poster
+        doc.addImage(moviePoster, 'JPEG', 10, 10, 180, 240);  // Adjust these values to fit the image properly
+
+        // Add movie name, info, and showtime text
+        doc.setFontSize(16);
+        doc.text(movieName, 10, 260);
+        doc.setFontSize(12);
+        if (movieInfo) {
+            doc.text('Info: ' + movieInfo, 10, 270);
+        }
+        doc.text('Showtime: ' + showtime, 10, 280);
+
+        // Save PDF
+        doc.save(`${movieName} - Ticket.pdf`);
+    }
+</script>
 
 </body>
 </html>
