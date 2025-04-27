@@ -127,37 +127,37 @@
 
 <!-- Modal for ticket download -->
 <div id="ticketModal" class="modal" onclick="closeModal()">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h3 id="movieTitle" class="modal-movie-title">Download Ticket for:</h3>
-        <h2 id="movieName" class="modal-movie-name">Download Ticket for Movie</h2>
-        <button class="download-btn" onclick="downloadTicket()">Download Ticket</button>
-    </div>
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <h3 id="movieTitle" class="modal-movie-title">Download Ticket for:</h3>
+    <h2 id="movieName" class="modal-movie-name">Download Ticket for Movie</h2>
+    <button class="download-btn" onclick="downloadTicket()">Download Ticket</button>
+  </div>
 </div>
 
 <script>
-    // Modal functionality
-    let currentMovie = {};
+  // Modal functionality
+  let currentMovie = {};
 
-    function openModal(movieName, movieInfo, moviePoster, showtime) {
-        currentMovie = { movieName, movieInfo, moviePoster, showtime };  // Store movie details in a global variable
-        document.getElementById('movieName').innerText = '' + movieName;
-        document.getElementById('ticketModal').style.display = 'flex'; // Change display to flex for centering
-    }
+  function openModal(movieName, movieInfo, moviePoster, showtime) {
+    currentMovie = { movieName, movieInfo, moviePoster, showtime };  // Store movie details in a global variable
+    document.getElementById('movieName').innerText = '' + movieName;
+    document.getElementById('ticketModal').style.display = 'flex'; // Change display to flex for centering
+  }
 
-    function closeModal() {
-        document.getElementById('ticketModal').style.display = 'none';
-    }
+  function closeModal() {
+    document.getElementById('ticketModal').style.display = 'none';
+  }
 
-    function downloadTicket() {
+  function downloadTicket() {
     // --- Data ---
     const ticketData = {
-        cinemaHall: "WPH - CINEMA ROOM",
-        seatRow: "B",
-        seatNumber: "5",
-        ticketNumber: "#12345678",
-        movieTitle: currentMovie.movieName,
-        moviePosterUrl: currentMovie.moviePoster
+      cinemaHall: "WPH - CINEMA ROOM",
+      seatRow: "B",
+      seatNumber: "5",
+      ticketNumber: "#12345678",
+      movieTitle: currentMovie.movieName,
+      moviePosterUrl: currentMovie.moviePoster
     };
 
     // --- Asynchronous Image Loading ---
@@ -165,197 +165,195 @@
     img.crossOrigin = 'Anonymous'; // Attempt to handle CORS - requires server support
 
     img.onload = function() {
-        // --- PDF Generation (runs ONLY after image is loaded) ---
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({
-            orientation: 'landscape',
-            unit: 'mm',
-            format: [210, 90] // W x H
-        });
+      // --- PDF Generation (runs ONLY after image is loaded) ---
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({
+        orientation: 'landscape',
+        unit: 'mm',
+        format: [210, 90] // W x H
+      });
 
-        // --- Layout Dimensions ---
-        const pageW = doc.internal.pageSize.getWidth();
-        const pageH = doc.internal.pageSize.getHeight();
-        const margin = 5;
-        const ticketW = pageW - 2 * margin;
-        const ticketH = pageH - 2 * margin;
-        const cornerRadius = 8;
-        const leftSectionWidth = ticketW * 0.35;
-        const rightSectionWidth = ticketW * 0.65 - 2;
-        const perforationX = margin + leftSectionWidth + 2;
+      // --- Layout Dimensions ---
+      const pageW = doc.internal.pageSize.getWidth();
+      const pageH = doc.internal.pageSize.getHeight();
+      const margin = 5;
+      const ticketW = pageW - 2 * margin;
+      const ticketH = pageH - 2 * margin;
+      const cornerRadius = 8;
+      const leftSectionWidth = ticketW * 0.35;
+      const rightSectionWidth = ticketW * 0.65 - 2;
+      const perforationX = margin + leftSectionWidth + 2;
 
-        // --- Colors ---
-        const lightBgColor = [245, 245, 240];
-        const darkBgColor = [45, 52, 61];
-        const textColorDark = [0, 0, 0];
-        const textColorLight = [255, 255, 255];
-        const accentColor = [220, 53, 69];
+      // --- Colors ---
+      const lightBgColor = [245, 245, 240];
+      const darkBgColor = [45, 52, 61];
+      const textColorDark = [0, 0, 0];
+      const textColorLight = [255, 255, 255];
+      const accentColor = [220, 53, 69];
 
-        // --- Draw Background Sections ---
-        doc.setFillColor(...lightBgColor);
-        doc.roundedRect(margin, margin, leftSectionWidth, ticketH, cornerRadius, cornerRadius, 'F');
-        doc.setFillColor(...darkBgColor);
-        doc.roundedRect(perforationX, margin, rightSectionWidth, ticketH, cornerRadius, cornerRadius, 'F');
+      // --- Draw Background Sections ---
+      doc.setFillColor(...lightBgColor);
+      doc.roundedRect(margin, margin, leftSectionWidth, ticketH, cornerRadius, cornerRadius, 'F');
+      doc.setFillColor(...darkBgColor);
+      doc.roundedRect(perforationX, margin, rightSectionWidth, ticketH, cornerRadius, cornerRadius, 'F');
 
-        // --- Left Section Content ---
-        const leftPad = margin + 10;
-        let currentLeftY = margin + 10;
+      // --- Left Section Content ---
+      const leftPad = margin + 10;
+      let currentLeftY = margin + 10;
 
-        // Diagonal Stripes
-        doc.setDrawColor(...textColorDark);
-        doc.setLineWidth(0.5);
-        const stripeW = 4;
-        const stripeGap = 2;
-        const stripeTotalWidth = stripeW + stripeGap; // Width of one stripe + gap (6)
-        const stripeTopY = margin + 4;
-        const stripeBottomY = margin + 8;
-        const stripeAreaWidth = leftSectionWidth - 15; // Available width for stripes area
+      // Diagonal Stripes
+      doc.setDrawColor(...textColorDark);
+      doc.setLineWidth(0.5);
+      const stripeW = 4;
+      const stripeGap = 2;
+      const stripeTotalWidth = stripeW + stripeGap; // Width of one stripe + gap (6)
+      const stripeTopY = margin + 4;
+      const stripeBottomY = margin + 8;
+      const stripeAreaWidth = leftSectionWidth - 15; // Available width for stripes area
 
-        // Loop stops one stripe width + gap earlier than before
-        for (let i = 0; i < stripeAreaWidth - stripeTotalWidth; i += stripeTotalWidth) {
-             doc.line(leftPad + i, stripeTopY, leftPad + i + stripeW, stripeBottomY);
-             doc.line(leftPad + i + 1, stripeTopY, leftPad + i + 1 + stripeW, stripeBottomY); // Thicken slightly
+      // Loop stops one stripe width + gap earlier than before
+      for (let i = 0; i < stripeAreaWidth - stripeTotalWidth; i += stripeTotalWidth) {
+        doc.line(leftPad + i, stripeTopY, leftPad + i + stripeW, stripeBottomY);
+        doc.line(leftPad + i + 1, stripeTopY, leftPad + i + 1 + stripeW, stripeBottomY); // Thicken slightly
+      }
+      currentLeftY += 10;
+
+      // Cinema Hall (Left)
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(...textColorDark);
+      doc.text(ticketData.cinemaHall, leftPad, currentLeftY);
+      currentLeftY += 3;
+
+      // Line Separator (Left)
+      doc.setDrawColor(...textColorDark);
+      doc.setLineWidth(0.3);
+      doc.line(leftPad, currentLeftY, perforationX - 10, currentLeftY);
+      currentLeftY += 15;
+
+      // Seat Info
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(28);
+      doc.setTextColor(...accentColor);
+      doc.text(ticketData.seatRow, leftPad + 5, currentLeftY, { align: 'center' });
+      doc.text(ticketData.seatNumber, leftPad + 30, currentLeftY, { align: 'center' });
+      currentLeftY += 5;
+      doc.setFont('Helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(...textColorDark);
+      doc.text("ROW", leftPad + 5, currentLeftY, { align: 'center' });
+      doc.text("SEAT", leftPad + 30, currentLeftY, { align: 'center' });
+      currentLeftY += 15;
+
+      // Barcode Simulation
+      const barcodeY = currentLeftY;
+      const barcodeH = 12;
+      const barcodeW = leftSectionWidth - 30;
+      doc.setFillColor(...textColorDark);
+      for (let i = 0; i < barcodeW; i += (Math.random() * 1.5 + 0.5)) {
+        let barHeightFactor = Math.random() * 0.2 + 0.8;
+        if (Math.random() > 0.2) {
+          doc.rect(leftPad + 5 + i, barcodeY + (barcodeH * (1-barHeightFactor))/2 , 0.4, barcodeH * barHeightFactor , 'F');
         }
-        currentLeftY += 10;
+      }
+      currentLeftY += barcodeH + 5;
 
-        // Cinema Hall (Left)
-        doc.setFont('Helvetica', 'bold');
-        doc.setFontSize(10);
-        doc.setTextColor(...textColorDark);
-        doc.text(ticketData.cinemaHall, leftPad, currentLeftY);
-        currentLeftY += 3;
+      // Ticket Number (Left Bottom)
+      doc.setFont('Helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(...textColorDark);
+      doc.text(ticketData.ticketNumber, leftPad, currentLeftY);
 
-        // Line Separator (Left)
-        doc.setDrawColor(...textColorDark);
-        doc.setLineWidth(0.3);
-        doc.line(leftPad, currentLeftY, perforationX - 10, currentLeftY);
-        currentLeftY += 15;
+      // --- Right Section Content ---
+      const rightPad = perforationX + 15;
+      let currentRightY = margin + 8; // Start Y for the right section
 
-        // Seat Info
-        doc.setFont('Helvetica', 'bold');
-        doc.setFontSize(28);
-        doc.setTextColor(...accentColor);
-        doc.text(ticketData.seatRow, leftPad + 5, currentLeftY, { align: 'center' });
-        doc.text(ticketData.seatNumber, leftPad + 30, currentLeftY, { align: 'center' });
-        currentLeftY += 5;
-        doc.setFont('Helvetica', 'normal');
-        doc.setFontSize(8);
-        doc.setTextColor(...textColorDark);
-        doc.text("ROW", leftPad + 5, currentLeftY, { align: 'center' });
-        doc.text("SEAT", leftPad + 30, currentLeftY, { align: 'center' });
-        currentLeftY += 15;
+      // Ticket Number (Top Right)
+      doc.setFont('Helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(...textColorLight);
+      doc.text(ticketData.ticketNumber, pageW - margin - 5, currentRightY, { align: 'right'});
+      currentRightY += 5; // Add a little space
 
-        // Barcode Simulation
-        const barcodeY = currentLeftY;
-        const barcodeH = 12;
-        const barcodeW = leftSectionWidth - 30;
-        doc.setFillColor(...textColorDark);
-        for (let i = 0; i < barcodeW; i += (Math.random() * 1.5 + 0.5)) {
-            let barHeightFactor = Math.random() * 0.2 + 0.8;
-             if (Math.random() > 0.2) {
-                 doc.rect(leftPad + 5 + i, barcodeY + (barcodeH * (1-barHeightFactor))/2 , 0.4, barcodeH * barHeightFactor , 'F');
-             }
-        }
-        currentLeftY += barcodeH + 5;
+      // *** Add Movie Poster ***
+      const posterMaxH = 50; // Max height for the poster area
+      const posterMaxW = rightSectionWidth - 20; // Max width for the poster area
+      const originalW = img.width;
+      const originalH = img.height;
+      const aspectRatio = originalW / originalH;
 
-        // Ticket Number (Left Bottom)
-        doc.setFont('Helvetica', 'normal');
-        doc.setFontSize(8);
-        doc.setTextColor(...textColorDark);
-        doc.text(ticketData.ticketNumber, leftPad, currentLeftY);
+      let drawH = posterMaxH;
+      let drawW = drawH * aspectRatio;
 
-        // --- Right Section Content ---
-        const rightPad = perforationX + 15;
-        let currentRightY = margin + 8; // Start Y for the right section
-
-        // Ticket Number (Top Right)
-        doc.setFont('Helvetica', 'normal');
-        doc.setFontSize(8);
-        doc.setTextColor(...textColorLight);
-        doc.text(ticketData.ticketNumber, pageW - margin - 5, currentRightY, { align: 'right'});
-        currentRightY += 5; // Add a little space
-
-        // *** Add Movie Poster ***
-        const posterMaxH = 50; // Max height for the poster area
-        const posterMaxW = rightSectionWidth - 20; // Max width for the poster area
-        const originalW = img.width;
-        const originalH = img.height;
-        const aspectRatio = originalW / originalH;
-
-        let drawH = posterMaxH;
-        let drawW = drawH * aspectRatio;
-
-        // If calculated width exceeds max width, constrain by width instead
-        if (drawW > posterMaxW) {
-            drawW = posterMaxW;
-            drawH = drawW / aspectRatio;
-        }
-         // If calculated height now exceeds max height (can happen with very tall posters after width constraint)
-         // This check is less likely needed if constraining height first, but good for safety
-         if (drawH > posterMaxH) {
-             drawH = posterMaxH;
-             drawW = drawH * aspectRatio;
-         }
+      // If calculated width exceeds max width, constrain by width instead
+      if (drawW > posterMaxW) {
+        drawW = posterMaxW;
+        drawH = drawW / aspectRatio;
+      }
+      // If calculated height now exceeds max height (can happen with very tall posters after width constraint)
+      // This check is less likely needed if constraining height first, but good for safety
+      if (drawH > posterMaxH) {
+        drawH = posterMaxH;
+        drawW = drawH * aspectRatio;
+      }
 
 
-        const posterX = perforationX + (rightSectionWidth - drawW) / 2; // Center poster horizontally
-        // Add the loaded image (this 'img' object is available because we are inside onload)
-        // Determine format dynamically (though often JPEG or PNG) - jsPDF might handle this
-        let format = ticketData.moviePosterUrl.split('.').pop().toUpperCase();
-        if (format !== 'PNG' && format !== 'JPEG' && format !== 'JPG') {
-            format = 'JPEG'; // Default guess if extension is weird
-        }
-        if (format === 'JPG') format = 'JPEG'; // jsPDF uses 'JPEG'
+      const posterX = perforationX + (rightSectionWidth - drawW) / 2; // Center poster horizontally
+      // Add the loaded image (this 'img' object is available because we are inside onload)
+      // Determine format dynamically (though often JPEG or PNG) - jsPDF might handle this
+      let format = ticketData.moviePosterUrl.split('.').pop().toUpperCase();
+      if (format !== 'PNG' && format !== 'JPEG' && format !== 'JPG') {
+        format = 'JPEG'; // Default guess if extension is weird
+      }
+      if (format === 'JPG') format = 'JPEG'; // jsPDF uses 'JPEG'
 
-        doc.addImage(img, format, posterX, 11, drawW, drawH);
-        currentRightY += drawH + 1; // Space below poster
+      doc.addImage(img, format, posterX, 11, drawW, drawH);
+      currentRightY += drawH + 1; // Space below poster
 
-        // Movie Title (Right - Larger)
-        doc.setFont('Helvetica', 'bold');
-        doc.setFontSize(16);
-        doc.setTextColor(...textColorLight);
-        doc.text(ticketData.movieTitle, perforationX + rightSectionWidth / 2, currentRightY, { align: 'center' });
-        currentRightY += 4;
+      // Movie Title (Right - Larger)
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(16);
+      doc.setTextColor(...textColorLight);
+      doc.text(ticketData.movieTitle, perforationX + rightSectionWidth / 2, currentRightY, { align: 'center' });
+      currentRightY += 4;
 
-        // Line Separator (Right)
-        doc.setDrawColor(...textColorLight);
-        doc.setLineWidth(0.3);
-        doc.line(rightPad - 5 , currentRightY, pageW - margin - 10, currentRightY);
-        currentRightY += 8;
+      // Line Separator (Right)
+      doc.setDrawColor(...textColorLight);
+      doc.setLineWidth(0.3);
+      doc.line(rightPad - 5 , currentRightY, pageW - margin - 10, currentRightY);
+      currentRightY += 8;
 
-        // Cinema Hall
-        doc.setFont('Helvetica', 'normal');
-        doc.setFontSize(10);
-        doc.setTextColor(...textColorLight);
-        doc.text(ticketData.cinemaHall, perforationX + rightSectionWidth / 2, currentRightY, { align: 'center' });
+      // Cinema Hall
+      doc.setFont('Helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(...textColorLight);
+      doc.text(ticketData.cinemaHall, perforationX + rightSectionWidth / 2, currentRightY, { align: 'center' });
 
 
-        // --- Overall Rounded Border ---
-        doc.setDrawColor(0, 0, 0);
-        doc.setLineWidth(0.5);
-        doc.roundedRect(margin, margin, ticketW, ticketH, cornerRadius, cornerRadius, 'S');
+      // --- Overall Rounded Border ---
+      doc.setDrawColor(0, 0, 0);
+      doc.setLineWidth(0.5);
+      doc.roundedRect(margin, margin, ticketW, ticketH, cornerRadius, cornerRadius, 'S');
 
-        // --- Save PDF ---
-        const safeMovieTitle = ticketData.movieTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-        doc.save(`${safeMovieTitle}_ticket_${ticketData.seatRow}${ticketData.seatNumber}.pdf`);
-
+      // --- Save PDF ---
+      const safeMovieTitle = ticketData.movieTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+      doc.save(`${safeMovieTitle}_ticket_${ticketData.seatRow}${ticketData.seatNumber}.pdf`);
     }; // --- End of img.onload ---
 
     img.onerror = function() {
-        console.error("Failed to load movie poster image from URL:", ticketData.moviePosterUrl);
-        alert("Error: Could not load the movie poster image. Please check the URL and ensure the server allows cross-origin access if necessary. Ticket not generated.");
+      console.error("Failed to load movie poster image from URL:", ticketData.moviePosterUrl);
+      alert("Error: Could not load the movie poster image. Please check the URL and ensure the server allows cross-origin access if necessary. Ticket not generated.");
     };
 
     // --- Trigger Image Loading ---
     // Setting the src *after* defining onload/onerror is important
     if (ticketData.moviePosterUrl) {
-        img.src = ticketData.moviePosterUrl;
+      img.src = ticketData.moviePosterUrl;
     } else {
-        alert("Error: Movie poster URL is missing. Ticket not generated.");
-        // Optionally handle the case where no URL is provided (e.g., generate without poster)
+      alert("Error: Movie poster URL is missing. Ticket not generated.");
+      // Optionally handle the case where no URL is provided (e.g., generate without poster)
     }
-
-} // --- End of downloadTicket function ---
+  } // --- End of downloadTicket function ---
 </script>
 
 </body>
