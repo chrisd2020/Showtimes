@@ -127,7 +127,7 @@
 
 <!-- Modal for ticket download -->
 <div id="ticketModal" class="modal" onclick="closeModal()">
-  <div class="modal-content">
+  <div id="modalContent" class="modal-content" onclick="event.stopPropagation()">
     <span class="close-btn" onclick="closeModal()">&times;</span>
     <h3 id="movieTitle" class="modal-movie-title">Download Ticket for:</h3>
     <h2 id="movieName" class="modal-movie-name">Download Ticket for Movie</h2>
@@ -146,13 +146,22 @@
   }
 
   function closeModal() {
-    document.getElementById('ticketModal').style.display = 'none';
+    modal = document.getElementById('ticketModal');
+    modalContent = document.getElementById('modalContent');
+    modal.style.animation = "fadeOut 0.5s ease-in-out";
+    modalContent.style.animation = "modalClose 0.5s forwards";
+    setTimeout(() => {
+      modal.style.display = 'none';
+      modal.style.animation = "fadeIn 0.5s ease-in-out";
+      modalContent.style.animation = "modalOpen 0.5s forwards";
+    }, 500)
   }
 
   function downloadTicket() {
     // --- Data ---
     const ticketData = {
-      cinemaHall: "WPH - CINEMA ROOM",
+      cinemaHallShortName: "WPH - CINEMA ROOM",
+      cinemaHallName: "Willow Pool House - CINEMA ROOM",
       seatRow: "B",
       seatNumber: "5",
       ticketNumber: "#12345678",
@@ -222,7 +231,7 @@
       doc.setFont('Helvetica', 'bold');
       doc.setFontSize(10);
       doc.setTextColor(...textColorDark);
-      doc.text(ticketData.cinemaHall, leftPad, currentLeftY);
+      doc.text(ticketData.cinemaHallShortName, leftPad, currentLeftY);
       currentLeftY += 3;
 
       // Line Separator (Left)
@@ -327,7 +336,7 @@
       doc.setFont('Helvetica', 'normal');
       doc.setFontSize(10);
       doc.setTextColor(...textColorLight);
-      doc.text(ticketData.cinemaHall, perforationX + rightSectionWidth / 2, currentRightY, { align: 'center' });
+      doc.text(ticketData.cinemaHallName, perforationX + rightSectionWidth / 2, currentRightY, { align: 'center' });
 
 
       // --- Overall Rounded Border ---
@@ -337,8 +346,19 @@
 
       // --- Save PDF ---
       const safeMovieTitle = ticketData.movieTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-      doc.save(`${safeMovieTitle}_ticket_${ticketData.seatRow}${ticketData.seatNumber}.pdf`);
-    }; // --- End of img.onload ---
+
+      // Set properties
+      doc.setProperties({
+        title: `${safeMovieTitle}_ticket_${ticketData.seatRow}${ticketData.seatNumber}`,
+      });
+
+      // Create the PDF blob
+      const pdfBlob = doc.output('blob');
+      const blobUrl = URL.createObjectURL(pdfBlob);
+
+      // Open in a new tab
+      const newWindow = window.open(blobUrl);
+    };
 
     img.onerror = function() {
       console.error("Failed to load movie poster image from URL:", ticketData.moviePosterUrl);
