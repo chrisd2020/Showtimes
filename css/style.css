@@ -108,6 +108,7 @@ body {
     justify-content: center;
     align-items: center;
     cursor: pointer; /* Change cursor to pointer when hovering outside */
+    animation: fadeIn 0.5s ease-in-out; /* Fade-in effect */
   }
   
   .modal-content {
@@ -118,6 +119,8 @@ body {
     max-width: 450px;
     position: relative;
     cursor: auto; /* Make sure content doesn't trigger closing */
+    transform: scale(0); /* Start off-screen */
+    animation: modalOpen 0.5s forwards; /* Modal opening animation */
   }
 
   .modal-movie-name {
@@ -171,4 +174,48 @@ body {
     padding-bottom: 4px;
     padding-left: 9px;
     padding-right: 6px;
+  }
+
+  /* Animation for opening the modal */
+  @keyframes modalOpen {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* Modal closing animation */
+  @keyframes modalClose {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0);
+      opacity: 0;
+    }
+  }
+
+  /* Fade-in effect for background */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  /* Fade-out effect for background */
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
   }
