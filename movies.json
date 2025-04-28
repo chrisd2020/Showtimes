@@ -1,0 +1,78 @@
+[
+    {
+      "title": "Back to the Future",
+      "episode": "",
+      "poster": "images/bttf.jpeg",
+      "showtime": "Monday, 8:00 PM"
+    },
+    {
+      "title": "The Super Mario Bros. Movie",
+      "episode": "",
+      "poster": "images/tsmbm.jpg",
+      "showtime": "Tuesday, 8:00 PM"
+    },
+    {
+      "title": "Formula 1",
+      "episode": "Miami Grand Prix 2025",
+      "poster": "images/mgp2.jpeg",
+      "showtime": "Sunday, 9:00 PM"
+    },
+    {
+      "title": "Doctor Who",
+      "episode": "Lucky Day - S02E04",
+      "poster": "images/dw.jpg",
+      "showtime": "Saturday, 7:00 PM"
+    },
+    {
+      "title": "Taskmaster",
+      "episode": "Sometimes Spit - S19E01",
+      "poster": "images/tm.png",
+      "showtime": "Thursday, 9:00 PM"
+    },
+    {
+      "title": "Skyfall",
+      "episode": "",
+      "poster": "images/s.jpg",
+      "showtime": "Monday, 6:00 PM",
+      "format": "IMAX"
+    },
+    {
+      "title": "Spider-Man: Into the Spider-Verse",
+      "episode": "",
+      "poster": "images/smitsv.jpg",
+      "showtime": "Tuesday, 8:00 PM"
+    },
+    {
+      "title": "Sonic the Hedgehog 3",
+      "episode": "",
+      "poster": "images/sth3.jpg",
+      "showtime": "Wednesday, 5:00 PM"
+    },
+    {
+      "title": "Deadpool & Wolverine",
+      "episode": "",
+      "poster": "images/daw.jpg",
+      "showtime": "Wednesday, 8:00 PM"
+    },
+    {
+      "title": "Wallace & Gromit: Vengeance Most Fowl",
+      "episode": "",
+      "poster": "images/wag.jpg",
+      "showtime": "Wednesday, 6:00 PM"
+    },
+    {
+      "title": "Mission: Impossible - Fallout",
+      "episode": "",
+      "poster": "images/mi.jpg",
+      "showtime": "Thursday, 8:00 PM",
+      "format": "IMAX"
+    },
+    {
+      "title": "Mission: Impossible - Ghost Protocol",
+      "episode": "",
+      "poster": "images/migp.jpg",
+      "showtime": "Friday, 8:00 PM",
+      "format": "IMAX"
+    }
+  ]
+  

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upcoming Films</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #fff;
+      font-family: 'Roboto', sans-serif;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+    .carousel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+    }
+    .poster {
+      width: 40vmin;
+      height: 60vmin; /* 2:3 ratio */
+      background-size: cover;
+      background-position: center;
+      border-radius: 2vmin;
+      box-shadow: 0 0 3vmin rgba(255, 255, 255, 0.2);
+      margin-bottom: 5vmin;
+      animation: zoomFade 10s ease-in-out infinite;
+    }
+    .movie-title {
+      font-size: 5vmin;
+      font-weight: bold;
+      margin: 1vmin 0 0.5vmin;
+      animation: justFade 10s ease-in-out infinite;
+    }
+    .episode {
+      font-size: 3vmin;
+      color: #ccc;
+      margin: 0.5vmin 0;
+      animation: justFade 10s ease-in-out infinite;
+    }
+    .showtime {
+      font-size: 4vmin;
+      margin: 1vmin 0;
+      animation: justFade 10s ease-in-out infinite;
+    }
+    .imax {
+      display: inline-block;
+      padding: 1vmin 2vmin;
+      background: #0074d9;
+      color: white;
+      font-weight: bold;
+      font-size: 3vmin;
+      border-radius: 1vmin;
+      margin-top: 1vmin;
+      animation: justFade 10s ease-in-out infinite;
+    }
+    @keyframes zoomFade {
+      0% {
+        transform: scale(1);
+        opacity: 0;
+        visibility: hidden;
+      }
+      10% {
+        opacity: 1;
+        visibility: visible;
+      }
+      90% {
+        transform: scale(1.05);
+        opacity: 1;
+        visibility: visible;
+      }
+      100% {
+        transform: scale(1.05);
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+    @keyframes justFade {
+        0% {
+            opacity: 0;
+            visibility: hidden;
+        }
+        10% {
+            opacity: 1;
+            visibility: visible;
+        }
+        90% {
+            opacity: 1;
+            visibility: visible;
+        }
+        100% {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="carousel" id="carousel">
+    <div class="poster" id="poster"></div>
+    <div class="movie-title" id="title"></div>
+    <div class="episode" id="episode"></div>
+    <div class="showtime" id="showtime"></div>
+    <div class="imax" id="imax" style="display: none;">IMAX</div>
+  </div>
+
+  <script>
+    let movies = [];
+    let currentIndex = 0;
+
+    async function loadMovies() {
+      const response = await fetch('movies.json');
+      movies = await response.json();
+      showMovie();
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % movies.length;
+        showMovie();
+      }, 10000); // 6 seconds now
+    }
+
+    function showMovie() {
+      const movie = movies[currentIndex];
+      document.getElementById('poster').style.backgroundImage = `url('${movie.poster}')`;
+      document.getElementById('title').textContent = movie.title;
+      document.getElementById('episode').textContent = movie.episode || '';
+      document.getElementById('showtime').textContent = movie.showtime;
+      document.getElementById('imax').style.display = movie.format === 'IMAX' ? 'inline-block' : 'none';
+    }
+
+    loadMovies();
+  </script>
+</body>
+</html>

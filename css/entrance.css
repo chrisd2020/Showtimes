@@ -1,0 +1,62 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #000;
+    color: #fff;
+    font-family: 'Helvetica Neue', sans-serif;
+    overflow: hidden;
+  }
+  
+  #carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    animation: fadeIn 1s ease-in;
+  }
+  
+  .movie-card {
+    width: 80%;
+    max-width: 600px;
+    background: #111;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    animation: popIn 0.8s ease forwards;
+  }
+  
+  .poster {
+    width: 100%;
+    padding-bottom: 150%; /* 2:3 aspect ratio */
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .movie-info {
+    padding: 20px;
+  }
+  
+  .movie-info h1 {
+    margin: 10px 0;
+    font-size: 2em;
+  }
+  
+  .movie-info p {
+    margin: 0;
+    font-size: 1.5em;
+    color: #ccc;
+  }
+  
+  /* Animations */
+  @keyframes popIn {
+    0% { transform: scale(0.9); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
