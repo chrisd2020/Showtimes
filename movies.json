@@ -1,5 +1,17 @@
 [
     {
+      "title": "Mario Kart 8 Deluxe",
+      "episode": "Nintendo Switch",
+      "poster": "images/mk8d.jpg",
+      "showtime": "Sunday, 6:00 PM"
+    },
+    {
+      "title": "Split Fiction",
+      "episode": "PC",
+      "poster": "images/sf.jpg",
+      "showtime": "Sunday, 6:00 PM"
+    },
+    {
       "title": "Back to the Future",
       "episode": "",
       "poster": "images/bttf.jpeg",
