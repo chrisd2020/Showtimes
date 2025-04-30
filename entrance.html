@@ -49,16 +49,20 @@
       margin: 1vmin 0;
       animation: justFade 10s ease-in-out infinite;
     }
-    .imax {
-      display: inline-block;
-      padding: 1vmin 2vmin;
-      background: #0074d9;
-      color: white;
-      font-weight: bold;
-      font-size: 3vmin;
-      border-radius: 1vmin;
-      margin-top: 1vmin;
-      animation: justFade 10s ease-in-out infinite;
+    .imax-logo {
+        animation: justFade 10s ease-in-out infinite;
+        height: 15px;
+        background-color: white;
+        width: fit-content;
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        padding-left: 9px;
+        padding-right: 6px;
     }
     @keyframes zoomFade {
       0% {
@@ -108,7 +112,7 @@
     <div class="movie-title" id="title"></div>
     <div class="episode" id="episode"></div>
     <div class="showtime" id="showtime"></div>
-    <div class="imax" id="imax" style="display: none;">IMAX</div>
+    <img class="imax-logo" style="display: none;" id="imax" src="images/imax.svg" />
   </div>
 
   <script>
@@ -122,7 +126,7 @@
       setInterval(() => {
         currentIndex = (currentIndex + 1) % movies.length;
         showMovie();
-      }, 10000); // 6 seconds now
+      }, 10000);
     }
 
     function showMovie() {
